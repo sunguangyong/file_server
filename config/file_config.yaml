@@ -1,0 +1,5 @@
+lisen_host : 192.168.19.192:9090
+storage_ip : 192.168.19.192
+static_url : /home/atguigu/Downloads
+static_dir : /home/atguigu/Downloads
+db_address : prod:Fubang@#$123@tcp(172.16.15.249:3306)/manna
