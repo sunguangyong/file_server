@@ -56,12 +56,15 @@ func save(app_name string, ftype_name string, orig_file_name string, fh *multipa
     file_uploda.FileSize = size
     file_uploda.RTime = time.Now()
     file_id := storage.FileUploadInsert(file_uploda)
-    return fmt.Sprintf(`{"file_id":%d, "download_path": "%s", "static_url":"%s", "absolute_path":"%s"}`, file_id, download_path, config.STATIC_URL, absolute_path)
+    return fmt.Sprintf(`{"file_id":%d, "download_path": "%s", "static_url":"%s", "absolute_path":"%s", "disk_path":"%s"}`, file_id, download_path, config.STATIC_URL, absolute_path, disk_path)
 }
 
 
 //文件上传: /upload/<app_name>/<type_name>
 func Upload(w http.ResponseWriter, r *http.Request) {
+    w.Header().Set("Access-Control-Allow-Origin", "*")             //允许访问所有域
+    w.Header().Add("Access-Control-Allow-Headers", "Content-Type") //header的类型
+    w.Header().Set("content-type", "application/json")             //返回数据格式是json
     if r.Method != "POST" {
         err_msg := "ERROR: When Upload File, Method Must Be POST"
         w.Write(common.FormatResponse("", -1, err_msg))
