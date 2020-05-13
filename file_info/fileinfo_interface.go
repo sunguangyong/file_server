@@ -16,7 +16,7 @@ import (
 func InfoFile(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Access-Control-Allow-Origin", "*")             //允许访问所有域
     w.Header().Add("Access-Control-Allow-Headers", "Content-Type") //header的类型
-    w.Header().Set("content-type", "application/json")             //返回数据格式是json
+    w.Header().Set("content-type", "application/json")             //返回数据格式是jsoncd
     if r.Method != "GET" {
         err_msg := "ERROR: method must be GET"
         w.Write(common.FormatResponse("", -1, err_msg))
