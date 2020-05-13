@@ -1,4 +1,4 @@
-lisen_host : 0.0.0.0:9090
+lisen_host : 0.0.0.0:8989
 storage_ip : 0.0.0.0
-static_url : http://10.0.3.122:9090
+static_url : http://10.0.3.122:8989
 static_dir : /home/atguigu/Downloads
