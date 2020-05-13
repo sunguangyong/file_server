@@ -11,6 +11,7 @@ import (
     "mime/multipart"
     "net/http"
     "net/url"
+    "os"
     "strings"
     _ "strings"
     "time"
@@ -54,6 +55,10 @@ func save(app_name string, ftype_name string, orig_file_name string, fh *multipa
     file_uploda.AbsolutePath = absolute_path
     file_uploda.DiskPath = disk_path
     file_uploda.FileSize = size
+    file_uploda.FileType = ftype_name
+    file_uploda.AppName = app_name
+    file_uploda.HostName,_ = os.Hostname()
+    file_uploda.StorageIp = config.STORAGE_IP
     file_uploda.RTime = time.Now()
     file_id := storage.FileUploadInsert(file_uploda)
     return fmt.Sprintf(`{"file_id":%d, "download_path": "%s", "static_url":"%s", "absolute_path":"%s", "disk_path":"%s"}`, file_id, download_path, config.STATIC_URL, absolute_path, disk_path)

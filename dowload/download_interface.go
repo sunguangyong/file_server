@@ -21,6 +21,9 @@ import (
 
 //文件下载: /download/<app_name>/<type_name>/<file_name>
 func Download(w http.ResponseWriter, r *http.Request) {
+    w.Header().Set("Access-Control-Allow-Origin", "*")             //允许访问所有域
+    w.Header().Add("Access-Control-Allow-Headers", "Content-Type") //header的类型
+    w.Header().Set("content-type", "application/json")             //返回数据格式是json
     if r.Method != "GET" {
         err_msg := "ERROR: When Download File, Method Must Be GET"
         w.Write(common.FormatResponse("", -1, err_msg))
@@ -44,6 +47,9 @@ func Download(w http.ResponseWriter, r *http.Request) {
 
 // 文件下载，传入 file_id, 返回压缩后的 zip 文件
 func DownloadZip(w http.ResponseWriter, r *http.Request) {
+    w.Header().Set("Access-Control-Allow-Origin", "*")             //允许访问所有域
+    w.Header().Add("Access-Control-Allow-Headers", "Content-Type") //header的类型
+    w.Header().Set("content-type", "application/json")             //返回数据格式是json
     if r.Method != "GET" {
         err_msg := "ERROR: When Download File, Method Must Be GET"
         w.Write(common.FormatResponse("", -1, err_msg))
