@@ -3,14 +3,14 @@ package common
 import (
     "file_server/config"
     "file_server/storage"
-    "os"
-    "io"
     "fmt"
-    "time"
+    "io"
     "math/rand"
-    "strings"
     "mime/multipart"
     "net/http"
+    "os"
+    "strings"
+    "time"
 )
 
 
@@ -59,6 +59,9 @@ func GenFileName(orig_file_name string) (file_name string) {
     items[len(items)-2] = fmt.Sprintf( "%s_%d_%d", strings.Replace(items[len(items)-2], " ", "", -1), time.Now().Unix(), GenRandomInt())
 
     file_name = strings.Join(items, ".")
+    file_name = strings.Replace(file_name,"(","_",-1) // bash: 未预期的符号 `(' 附近有语法错误
+
+    file_name = strings.Replace(file_name,")","_",-1)
     return
 }
 
