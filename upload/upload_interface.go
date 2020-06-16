@@ -51,7 +51,7 @@ func save(app_name string, ftype_name string, orig_file_name string, fh *multipa
     storage.CheckErr(err)
 
     file_uploda.FileName = file_name
-    file_uploda.DownloadPath = download_path
+    file_uploda.DownloadPath = config.STATIC_URL + download_path
     file_uploda.AbsolutePath = absolute_path
     file_uploda.DiskPath = disk_path
     file_uploda.FileSize = size
@@ -61,7 +61,7 @@ func save(app_name string, ftype_name string, orig_file_name string, fh *multipa
     file_uploda.StorageIp = config.STORAGE_IP
     file_uploda.RTime = time.Now()
     file_id := storage.FileUploadInsert(file_uploda)
-    return fmt.Sprintf(`{"file_id":%d, "download_path": "%s", "static_url":"%s", "absolute_path":"%s", "disk_path":"%s"}`, file_id, download_path, config.STATIC_URL, absolute_path, disk_path)
+    return fmt.Sprintf(`{"file_id":%d, "download_path": "%s", "static_url":"%s", "absolute_path":"%s", "disk_path":"%s"}`, file_id, file_uploda.DownloadPath, config.STATIC_URL, absolute_path, disk_path)
 }
 
 
