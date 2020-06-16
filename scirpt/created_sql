@@ -1,14 +1,14 @@
  CREATE TABLE aicall.file_upload
  (
       id  serial     Primary key   ,--自增
-      file_name varchar(128),
-      host_name varchar(128),
-      disk_path varchar(128),
-      download_path varchar(128),
-      absolute_path varchar(128),
-      app_name varchar(128),
-      file_type varchar(128),
-      storage_ip varchar(128),
+      file_name varchar(256),
+      host_name varchar(256),
+      disk_path varchar(256),
+      download_path varchar(256),
+      absolute_path varchar(256),
+      app_name varchar(256),
+      file_type varchar(256),
+      storage_ip varchar(256),
       file_size int,
       r_time timestamp(6) without time zone  DEFAULT (now())     --创建时间 默认当前时间
  )
