@@ -96,6 +96,8 @@ func ResponseDiskFile(w http.ResponseWriter, r *http.Request, disk_path string, 
         w.Header().Set("Content-Disposition", fmt.Sprintf("attachment; filename=\"%s\"", filename))
     } else if data_type == "mp3" {
         w.Header().Set("Content-Type", "audio/mp3") // 获取mp3
+    } else if data_type == "wav" {
+        w.Header().Set("Content-Type", "audio/wav")
     }
     http.ServeFile(w, r, disk_path)
 }
