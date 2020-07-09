@@ -66,6 +66,7 @@ func save(app_name string, ftype_name string, orig_file_name string, fh *multipa
 //文件上传: /upload/<app_name>/<type_name>
 func Upload(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("content-type", "multipart/form-data") //返回数据格式是json
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	if r.Method != "POST" {
 		err_msg := "ERROR: When Upload File, Method Must Be POST"
 		w.Write(common.FormatResponse("", -1, err_msg))
