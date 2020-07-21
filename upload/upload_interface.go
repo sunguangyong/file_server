@@ -69,7 +69,7 @@ func Upload(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	if r.Method != "POST" {
 		err_msg := "ERROR: When Upload File, Method Must Be POST"
-		w.Write(common.FormatResponse("", -1, err_msg))
+		w.Write(common.FormatResponse("", 0, err_msg))
 		return
 	}
 
@@ -83,7 +83,7 @@ func Upload(w http.ResponseWriter, r *http.Request) {
 	if mp == nil {
 		log.Println("not MultipartForm.")
 		err_msg := "ERROR: When Upload File, Form Is Not MultipartForm"
-		w.Write(common.FormatResponse("", -1, err_msg))
+		w.Write(common.FormatResponse("", 0, err_msg))
 		return
 	}
 
@@ -91,7 +91,7 @@ func Upload(w http.ResponseWriter, r *http.Request) {
 	if !findFile || len(fileHeaders) == 0 {
 		log.Println("file count == 0.")
 		err_msg := "ERROR: Not Upload Any File"
-		w.Write(common.FormatResponse("", -1, err_msg))
+		w.Write(common.FormatResponse("", 0, err_msg))
 		return
 	}
 
@@ -108,5 +108,5 @@ func Upload(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Write(common.FormatResponse(data, 0, "SUCCESS"))
+	w.Write(common.FormatResponse(data, 1, "SUCCESS"))
 }

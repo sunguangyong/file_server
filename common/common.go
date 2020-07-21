@@ -79,7 +79,7 @@ func SaveFile(local_path string, fh *multipart.FileHeader) (err error) {
 func ResponseDiskFile(w http.ResponseWriter, r *http.Request, disk_path string, data_type string, filename string) {
 	if !FileExist(disk_path) {
 		err_msg := "ERROR: Image Not Found"
-		w.Write(FormatResponse("", -1, err_msg))
+		w.Write(FormatResponse("", 0, err_msg))
 		return
 	}
 

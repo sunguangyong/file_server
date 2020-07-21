@@ -14,7 +14,7 @@ import (
 func InfoFile(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "GET" {
 		err_msg := "ERROR: method must be GET"
-		w.Write(common.FormatResponse("", -1, err_msg))
+		w.Write(common.FormatResponse("", 0, err_msg))
 		return
 	}
 
@@ -26,14 +26,14 @@ func InfoFile(w http.ResponseWriter, r *http.Request) {
 
 	if len(m["file_id"]) == 0 {
 		err_msg := "ERROR: parameters lack file_id"
-		w.Write(common.FormatResponse("", -1, err_msg))
+		w.Write(common.FormatResponse("", 0, err_msg))
 		return
 	}
 
 	file_id, err := strconv.Atoi(m["file_id"][0])
 	if err != nil {
 		err_msg := "ERROR: file_id not valid"
-		w.Write(common.FormatResponse("", -1, err_msg))
+		w.Write(common.FormatResponse("", 0, err_msg))
 		return
 	}
 
@@ -63,5 +63,5 @@ func InfoFile(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(data)
 
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Write(common.FormatResponse(data, 0, "SUCCESS"))
+	w.Write(common.FormatResponse(data, 1, "SUCCESS"))
 }
