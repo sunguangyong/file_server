@@ -22,7 +22,7 @@ import (
 func Download(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "GET" {
 		err_msg := "ERROR: When Download File, Method Must Be GET"
-		w.Write(common.FormatResponse("", -1, err_msg))
+		w.Write(common.FormatResponse("", 0, err_msg))
 		return
 	}
 	logger.Info("load start --------------------------------")
@@ -44,19 +44,19 @@ func Download(w http.ResponseWriter, r *http.Request) {
 func DownloadZip(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "GET" {
 		err_msg := "ERROR: When Download File, Method Must Be GET"
-		w.Write(common.FormatResponse("", -1, err_msg))
+		w.Write(common.FormatResponse("", 0, err_msg))
 		return
 	}
 
 	m, _ := url.ParseQuery(r.URL.RawQuery)
 	if len(m["file_id"]) == 0 {
 		err_msg := "ERROR: lack of parameter: file_id"
-		w.Write(common.FormatResponse("", -1, err_msg))
+		w.Write(common.FormatResponse("", 0, err_msg))
 		return
 	}
 	if len(m["file_name"]) == 0 {
 		err_msg := "ERROR: lack of parameter: file_name"
-		w.Write(common.FormatResponse("", -1, err_msg))
+		w.Write(common.FormatResponse("", 0, err_msg))
 		return
 	}
 	file_id := m["file_id"][0]
