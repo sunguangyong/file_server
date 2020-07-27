@@ -30,7 +30,7 @@ type FileUpload struct {
 }
 
 func init() {
-	PgOrmOpen("10.0.3.122", "aicalldev", "Yplsec.com", "aicalldb", 5432)
+	PgOrmOpen("10.0.0.70", "aicalldev", "Yplsec.com", "aicalldb", 5432)
 	//PgOrmOpen("49.235.38.211","aicalldev","Yplsec.com","aicalldb",5432)
 
 }
