@@ -1,16 +1,16 @@
 package file_info
 
 import (
-	"file_server/common"
-	"file_server/config"
-	"file_server/storage"
+	"context"
 	"fmt"
+	"github.com/file_server/common"
+	"github.com/file_server/model"
 	"net/http"
 	"net/url"
 	"strconv"
 )
 
-//文件详情: /file/info/
+// 文件详情: /file/info/
 func InfoFile(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "GET" {
 		err_msg := "ERROR: method must be GET"
@@ -18,8 +18,7 @@ func InfoFile(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Println("start infoFIle")
-
+	ctx := context.Background()
 	m, _ := url.ParseQuery(r.URL.RawQuery)
 
 	fmt.Println(m)
@@ -31,15 +30,25 @@ func InfoFile(w http.ResponseWriter, r *http.Request) {
 	}
 
 	file_id, err := strconv.Atoi(m["file_id"][0])
+
 	if err != nil {
 		err_msg := "ERROR: file_id not valid"
 		w.Write(common.FormatResponse("", -1, err_msg))
 		return
 	}
 
-	info_file := storage.GetFileInfo(file_id)
+	files, err := model.FileConn.FindOne(ctx, int64(file_id))
 
-	fmt.Println(info_file)
+	if err != nil {
+		w.Write(common.FormatResponse("", -1, err.Error()))
+		return
+	}
+
+	if files == nil {
+		err_msg := "ERROR: This file cannot be found"
+		w.Write(common.FormatResponse("", -1, err_msg))
+		return
+	}
 
 	data_type := ""
 	if len(m["data_type"]) > 0 {
@@ -52,13 +61,14 @@ func InfoFile(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println("disk")
 	if data_type == "file" {
-		common.ResponseDiskFile(w, r, info_file["disk_path"], data_type, filename)
+		common.ResponseDiskFile(w, r, files.DiskPath, data_type, filename)
 		return
 	}
 	//file_size := GetFileSize(info_file["disk_path"])
 
 	data_fmt := `{"file_id":%d, "download_path": "%s", "static_url":"%s", "absolute_path":"%s", "hostname":"%s", "file_name": "%s", "file_size": %s}`
-	data := fmt.Sprintf(data_fmt, file_id, info_file["download_path"], config.STATIC_URL, info_file["absolute_path"], info_file["hostname"], info_file["file_name"], info_file["file_size"])
+	data := fmt.Sprintf(data_fmt, file_id, files.DownloadPath, common.STATIC_URL, files.AbsolutePath,
+		files.HostName, files.FileName, files.FileSize)
 
 	fmt.Println(data)
 

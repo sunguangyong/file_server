@@ -1,8 +1,6 @@
 package common
 
 import (
-	"file_server/config"
-	"file_server/storage"
 	"fmt"
 	"io"
 	"math/rand"
@@ -38,7 +36,7 @@ func CheckOrMakedir(path string) error {
 }
 
 func CurrentDirPath(app_name string, type_name string) string {
-	return config.STATIC_DIR + "/" + app_name + "/" + type_name
+	return STATIC_DIR + "/" + app_name + "/" + type_name
 }
 
 func DoloadFilePath(app_name string, type_name string, file_name string) string {
@@ -46,7 +44,7 @@ func DoloadFilePath(app_name string, type_name string, file_name string) string 
 }
 
 func AbsoluteFilePath(app_name string, type_name string, file_name string) string {
-	return config.STATIC_URL + DoloadFilePath(app_name, type_name, file_name)
+	return STATIC_URL + DoloadFilePath(app_name, type_name, file_name)
 }
 
 func GenFileName(orig_file_name string) (file_name string) {
@@ -63,13 +61,16 @@ func GenFileName(orig_file_name string) (file_name string) {
 func SaveFile(local_path string, fh *multipart.FileHeader) (err error) {
 	localfd, err := os.OpenFile(local_path, os.O_WRONLY|os.O_CREATE, 0666)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	defer localfd.Close()
 
 	post_file, err := fh.Open()
-	storage.CheckErr(err)
+
+	if err != nil {
+		return err
+	}
+
 	defer post_file.Close()
 
 	io.Copy(localfd, post_file)

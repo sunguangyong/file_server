@@ -1,11 +1,11 @@
 package main
 
 import (
-	"file_server/config"
-	"file_server/dowload"
-	"file_server/file_info"
-	"file_server/upload"
 	"fmt"
+	"github.com/file_server/common"
+	"github.com/file_server/dowload"
+	"github.com/file_server/file_info"
+	"github.com/file_server/upload"
 	"github.com/gorilla/mux"
 	_ "log"
 	"net/http"
@@ -21,8 +21,11 @@ func newRouter() http.Handler {
 	return r
 }
 
+func init() {
+}
+
 func main() {
-	fmt.Println("START LISTEN ON ", config.LISEN_HOST)
-	err := http.ListenAndServe(config.LISEN_HOST, newRouter())
+	fmt.Println("START LISTEN ON ", common.LISEN_HOST)
+	err := http.ListenAndServe(common.LISEN_HOST, newRouter())
 	fmt.Println("END RUN...", err)
 }

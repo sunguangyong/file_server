@@ -2,10 +2,10 @@ package dowload
 
 import (
 	"archive/zip"
-	"file_server/common"
-	"file_server/config"
-	"file_server/storage"
+	"context"
 	"fmt"
+	"github.com/file_server/common"
+	"github.com/file_server/model"
 	"github.com/gorilla/mux"
 	"github.com/wonderivan/logger"
 	"io"
@@ -18,7 +18,7 @@ import (
 	_ "strings"
 )
 
-//文件下载: /download/<app_name>/<type_name>/<file_name>
+// 文件下载: /download/<app_name>/<type_name>/<file_name>
 func Download(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "GET" {
 		err_msg := "ERROR: When Download File, Method Must Be GET"
@@ -35,7 +35,7 @@ func Download(w http.ResponseWriter, r *http.Request) {
 	app_name := vars["app_name"]
 	ftype_name := vars["type_name"]
 	file_name := vars["file_name"]
-	disk_path := strings.Join([]string{config.STATIC_DIR, app_name, ftype_name, file_name}, "/")
+	disk_path := strings.Join([]string{common.STATIC_DIR, app_name, ftype_name, file_name}, "/")
 	logger.Info("load    disk_path == ", disk_path)
 	common.ResponseDiskFile(w, r, disk_path, data_type, file_name)
 }
@@ -76,12 +76,12 @@ func GetZip(file_id_list []string, w io.Writer) {
 
 	for _, file_id := range file_id_list {
 		file_id_int, _ := strconv.Atoi(file_id)
-		info_file := storage.GetFileInfo(file_id_int)
-		disk_path := info_file["disk_path"]
+		fileInfo, err := model.FileConn.FindOne(context.Background(), int64(file_id_int))
+		disk_path := fileInfo.DiskPath //["disk_path"]
 		f, _ := os.Stat(disk_path)
 		zf, _ := ioutil.ReadFile(disk_path)
 		zc, _ := zipw.Create(f.Name())
-		_, err := zc.Write(zf)
+		_, err = zc.Write(zf)
 		if err != nil {
 			fmt.Println("err: ", err)
 		}
