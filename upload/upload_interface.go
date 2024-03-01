@@ -5,9 +5,6 @@ package upload
 import (
 	"context"
 	"fmt"
-	"github.com/file_server/common"
-	"github.com/file_server/model"
-	"github.com/gorilla/mux"
 	"log"
 	"mime/multipart"
 	"net/http"
@@ -16,6 +13,10 @@ import (
 	"strings"
 	_ "strings"
 	"time"
+
+	"github.com/file_server/common"
+	"github.com/file_server/model"
+	"github.com/gorilla/mux"
 )
 
 const uploadHTML = `

@@ -2,13 +2,14 @@ package main
 
 import (
 	"fmt"
+	_ "log"
+	"net/http"
+
 	"github.com/file_server/common"
 	"github.com/file_server/dowload"
 	"github.com/file_server/file_info"
 	"github.com/file_server/upload"
 	"github.com/gorilla/mux"
-	_ "log"
-	"net/http"
 )
 
 func newRouter() http.Handler {

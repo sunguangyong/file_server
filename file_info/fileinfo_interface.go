@@ -3,11 +3,12 @@ package file_info
 import (
 	"context"
 	"fmt"
-	"github.com/file_server/common"
-	"github.com/file_server/model"
 	"net/http"
 	"net/url"
 	"strconv"
+
+	"github.com/file_server/common"
+	"github.com/file_server/model"
 )
 
 // 文件详情: /file/info/

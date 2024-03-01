@@ -4,10 +4,6 @@ import (
 	"archive/zip"
 	"context"
 	"fmt"
-	"github.com/file_server/common"
-	"github.com/file_server/model"
-	"github.com/gorilla/mux"
-	"github.com/wonderivan/logger"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -16,6 +12,11 @@ import (
 	"strconv"
 	"strings"
 	_ "strings"
+
+	"github.com/file_server/common"
+	"github.com/file_server/model"
+	"github.com/gorilla/mux"
+	"github.com/wonderivan/logger"
 )
 
 // 文件下载: /download/<app_name>/<type_name>/<file_name>
