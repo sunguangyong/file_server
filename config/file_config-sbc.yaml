@@ -1,6 +1,0 @@
-lisen_host : 0.0.0.0:8989
-storage_ip : 0.0.0.0
-static_url : http://127.0.0.1:8989
-static_dir : /home/Downloads
-TnMysqlDataSource : "root:qIlRn)muX83d@tcp(82.156.56.237:3306)
-/telegram_bot?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai"
