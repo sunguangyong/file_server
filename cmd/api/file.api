@@ -1,0 +1,32 @@
+info(
+	title: "文件服务"
+	desc: "文件服务"
+	author: "sunguangyong"
+	email: "selv_brave@163.com"
+	version: "v1"
+)
+
+type (
+	//    FileRequest {
+	//        AppName string `path:"appName"`
+	//        TypeName string `path:"typeName"`
+	//        File multipart.File `form:"file"`
+	//    }
+
+	FileRequest {
+		AppName  string `path:"AppName"`
+		TypeName string `path:"TypeName"`
+		//File     byte   `form:"file"`
+	}
+
+	FileResponse struct{}
+)
+
+//文件服务
+service apis {
+	@doc(
+		summary: "上传文件"
+	)
+	@handler FileUpload
+	post /upload/:AppName/:TypeName (FileRequest) returns (FileResponse)
+}
