@@ -50,7 +50,6 @@ func (l *FileUploadLogic) FileUpload(req *types.FileUploadRequest, mp *multipart
 	for _, fh := range fileHeaders {
 		data, err := l.save(req, fh)
 		if err != nil {
-			fmt.Println("eeeeeeee", err)
 			continue
 		}
 		resp.Data = append(resp.Data, data)
@@ -94,6 +93,7 @@ func (l *FileUploadLogic) save(req *types.FileUploadRequest, fh *multipart.FileH
 	files.FileSize = size
 	files.FileType = typeName
 	files.AppName = appName
+	files.OrigFileName = origFileName
 	files.HostName, _ = os.Hostname()
 	files.StorageIp = common.STORAGE_IP
 	files.CreateTime = time.Now()
