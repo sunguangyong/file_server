@@ -1,5 +1,6 @@
 CREATE TABLE `files` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `uid` INT(10) DEFAULT '0' COMMENT '用户id',
   `file_name` varchar(256) NOT NULL DEFAULT '' COMMENT '文件名',
   `host_name` varchar(256) NOT NULL DEFAULT '' COMMENT '主机名',
   `disk_path` varchar(256) NOT NULL DEFAULT '' COMMENT '磁盘路径',

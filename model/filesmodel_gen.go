@@ -37,6 +37,7 @@ type (
 
 	Files struct {
 		Id           int64     `db:"id"`            // 主键ID
+		Uid          int64     `db:"uid"`           // 用户id
 		FileName     string    `db:"file_name"`     // 文件名
 		HostName     string    `db:"host_name"`     // 主机名
 		DiskPath     string    `db:"disk_path"`     // 磁盘路径
@@ -59,8 +60,8 @@ func newFilesModel(conn sqlx.SqlConn) *defaultFilesModel {
 }
 
 func (m *defaultFilesModel) Insert(ctx context.Context, data *Files) (sql.Result, error) {
-	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, filesRowsExpectAutoSet)
-	ret, err := m.conn.ExecCtx(ctx, query, data.FileName, data.HostName, data.DiskPath, data.DownloadPath, data.AbsolutePath, data.AppName, data.FileType, data.StorageIp, data.FileSize)
+	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, filesRowsExpectAutoSet)
+	ret, err := m.conn.ExecCtx(ctx, query, data.Uid, data.FileName, data.HostName, data.DiskPath, data.DownloadPath, data.AbsolutePath, data.AppName, data.FileType, data.StorageIp, data.FileSize)
 	return ret, err
 }
 
@@ -80,7 +81,7 @@ func (m *defaultFilesModel) FindOne(ctx context.Context, id int64) (*Files, erro
 
 func (m *defaultFilesModel) Update(ctx context.Context, data *Files) error {
 	query := fmt.Sprintf("update %s set %s where `id` = ?", m.table, filesRowsWithPlaceHolder)
-	_, err := m.conn.ExecCtx(ctx, query, data.FileName, data.HostName, data.DiskPath, data.DownloadPath, data.AbsolutePath, data.AppName, data.FileType, data.StorageIp, data.FileSize, data.Id)
+	_, err := m.conn.ExecCtx(ctx, query, data.Uid, data.FileName, data.HostName, data.DiskPath, data.DownloadPath, data.AbsolutePath, data.AppName, data.FileType, data.StorageIp, data.FileSize, data.Id)
 	return err
 }
 

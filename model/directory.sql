@@ -1,0 +1,11 @@
+CREATE TABLE `directory` (
+     `id` INT(10) NOT NULL AUTO_INCREMENT,
+     `uid` INT(10) DEFAULT '0' COMMENT 'user id',
+     `name` CHAR(128) DEFAULT '' COMMENT '路径名称',
+     `prefix` INT(10) DEFAULT '0' COMMENT '上级目录Id',
+     `fid` INT(10) DEFAULT '0' COMMENT '关联的文件表主键ID： 如果为0表示目录本身',
+     `level` INT(10) DEFAULT '0' COMMENT '目录层级',
+     `create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+     `update_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+     PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='目录表'
