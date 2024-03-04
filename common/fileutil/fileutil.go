@@ -1,4 +1,4 @@
-package common
+package fileutil
 
 import (
 	"fmt"
@@ -9,6 +9,8 @@ import (
 	"os"
 	"strings"
 	"time"
+
+	"github.com/file_server/common/constant"
 )
 
 var (
@@ -35,50 +37,50 @@ func CheckOrMakedir(path string) error {
 	return nil
 }
 
-func CurrentDirPath(app_name string, type_name string) string {
-	return STATIC_DIR + "/" + app_name + "/" + type_name
+func CurrentDirPath(appName string, typeName string) string {
+	return constant.STATIC_DIR + "/" + appName + "/" + typeName
 }
 
-func DoloadFilePath(app_name string, type_name string, file_name string) string {
-	return "/download/" + app_name + "/" + type_name + "/" + file_name
+func DoloadFilePath(appName string, typeName string, fileName string) string {
+	return "/download/" + appName + "/" + typeName + "/" + fileName
 }
 
-func AbsoluteFilePath(app_name string, type_name string, file_name string) string {
-	return STATIC_URL + DoloadFilePath(app_name, type_name, file_name)
+func AbsoluteFilePath(appName string, typeName string, fileName string) string {
+	return constant.STATIC_URL + DoloadFilePath(appName, typeName, fileName)
 }
 
-func GenFileName(orig_file_name string) (file_name string) {
-	items := strings.Split(orig_file_name, ".")
+func GenFileName(origFileName string) (fileName string) {
+	items := strings.Split(origFileName, ".")
 	items[len(items)-2] = fmt.Sprintf("%s_%d_%d", strings.Replace(items[len(items)-2], " ", "", -1), time.Now().Unix(), GenRandomInt())
 
-	file_name = strings.Join(items, ".")
-	file_name = strings.Replace(file_name, "(", "_", -1) // 替换所有（ 防止 bash: 未预期的符号 `(' 附近有语法错误
+	fileName = strings.Join(items, ".")
+	fileName = strings.Replace(fileName, "(", "_", -1) // 替换所有（ 防止 bash: 未预期的符号 `(' 附近有语法错误
 
-	file_name = strings.Replace(file_name, ")", "_", -1)
+	fileName = strings.Replace(fileName, ")", "_", -1)
 	return
 }
 
-func SaveFile(local_path string, fh *multipart.FileHeader) (err error) {
-	localfd, err := os.OpenFile(local_path, os.O_WRONLY|os.O_CREATE, 0666)
+func SaveFile(localPath string, fh *multipart.FileHeader) (err error) {
+	localfd, err := os.OpenFile(localPath, os.O_WRONLY|os.O_CREATE, 0666)
 	if err != nil {
 		return err
 	}
 	defer localfd.Close()
 
-	post_file, err := fh.Open()
+	postFile, err := fh.Open()
 
 	if err != nil {
 		return err
 	}
 
-	defer post_file.Close()
+	defer postFile.Close()
 
-	io.Copy(localfd, post_file)
+	io.Copy(localfd, postFile)
 	return nil
 }
 
-func ResponseDiskFile(w http.ResponseWriter, r *http.Request, disk_path string, data_type string, filename string) {
-	if !FileExist(disk_path) {
+func ResponseDiskFile(w http.ResponseWriter, r *http.Request, diskPath string, dataType string, filename string) {
+	if !FileExist(diskPath) {
 		err_msg := "ERROR: Image Not Found"
 		w.Write(FormatResponse("", -1, err_msg))
 		return
@@ -86,15 +88,15 @@ func ResponseDiskFile(w http.ResponseWriter, r *http.Request, disk_path string, 
 
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 
-	if data_type == "file" {
+	if dataType == "file" {
 		w.Header().Set("Content-Type", "octet-stream")
 		w.Header().Set("Content-Disposition", fmt.Sprintf("attachment; filename=\"%s\"", filename))
-	} else if data_type == "mp3" {
+	} else if dataType == "mp3" {
 		w.Header().Set("Content-Type", "audio/mp3") // 获取mp3
-	} else if data_type == "wav" {
+	} else if dataType == "wav" {
 		w.Header().Set("Content-Type", "audio/wav")
 	}
-	http.ServeFile(w, r, disk_path)
+	http.ServeFile(w, r, diskPath)
 }
 
 func FormatResponse(data string, code int, msg string) []byte {

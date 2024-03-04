@@ -10,7 +10,6 @@ import (
 	"time"
 
 	"github.com/zeromicro/go-zero/core/stores/builder"
-	"github.com/zeromicro/go-zero/core/stores/sqlc"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 	"github.com/zeromicro/go-zero/core/stringx"
 )
@@ -36,19 +35,20 @@ type (
 	}
 
 	Files struct {
-		Id           int64     `db:"id"`            // 主键ID
-		Uid          int64     `db:"uid"`           // 用户id
-		FileName     string    `db:"file_name"`     // 文件名
-		HostName     string    `db:"host_name"`     // 主机名
-		DiskPath     string    `db:"disk_path"`     // 磁盘路径
-		DownloadPath string    `db:"download_path"` // 下载路径
-		AbsolutePath string    `db:"absolute_path"` // 名称
-		AppName      string    `db:"app_name"`      // app名称
-		FileType     string    `db:"file_type"`     // 文件类型
-		StorageIp    string    `db:"storage_ip"`    // 存储ip
-		FileSize     int64     `db:"file_size"`     // 文件大小
-		CreateTime   time.Time `db:"create_time"`   // 创建时间
-		UpdateTime   time.Time `db:"update_time"`   // 修改时间
+		Id           int64     `db:"id"`             // 主键ID
+		Uid          int64     `db:"uid"`            // 用户id
+		FileName     string    `db:"file_name"`      // 文件名
+		OrigFileName string    `db:"orig_file_name"` // 原文件名
+		HostName     string    `db:"host_name"`      // 主机名
+		DiskPath     string    `db:"disk_path"`      // 磁盘路径
+		DownloadPath string    `db:"download_path"`  // 下载路径
+		AbsolutePath string    `db:"absolute_path"`  // 名称
+		AppName      string    `db:"app_name"`       // app名称
+		FileType     string    `db:"file_type"`      // 文件类型
+		StorageIp    string    `db:"storage_ip"`     // 存储ip
+		FileSize     int64     `db:"file_size"`      // 文件大小
+		CreateTime   time.Time `db:"create_time"`    // 创建时间
+		UpdateTime   time.Time `db:"update_time"`    // 修改时间
 	}
 )
 
@@ -60,8 +60,8 @@ func newFilesModel(conn sqlx.SqlConn) *defaultFilesModel {
 }
 
 func (m *defaultFilesModel) Insert(ctx context.Context, data *Files) (sql.Result, error) {
-	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, filesRowsExpectAutoSet)
-	ret, err := m.conn.ExecCtx(ctx, query, data.Uid, data.FileName, data.HostName, data.DiskPath, data.DownloadPath, data.AbsolutePath, data.AppName, data.FileType, data.StorageIp, data.FileSize)
+	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, filesRowsExpectAutoSet)
+	ret, err := m.conn.ExecCtx(ctx, query, data.Uid, data.FileName, data.OrigFileName, data.HostName, data.DiskPath, data.DownloadPath, data.AbsolutePath, data.AppName, data.FileType, data.StorageIp, data.FileSize)
 	return ret, err
 }
 
@@ -81,7 +81,7 @@ func (m *defaultFilesModel) FindOne(ctx context.Context, id int64) (*Files, erro
 
 func (m *defaultFilesModel) Update(ctx context.Context, data *Files) error {
 	query := fmt.Sprintf("update %s set %s where `id` = ?", m.table, filesRowsWithPlaceHolder)
-	_, err := m.conn.ExecCtx(ctx, query, data.Uid, data.FileName, data.HostName, data.DiskPath, data.DownloadPath, data.AbsolutePath, data.AppName, data.FileType, data.StorageIp, data.FileSize, data.Id)
+	_, err := m.conn.ExecCtx(ctx, query, data.Uid, data.FileName, data.OrigFileName, data.HostName, data.DiskPath, data.DownloadPath, data.AbsolutePath, data.AppName, data.FileType, data.StorageIp, data.FileSize, data.Id)
 	return err
 }
 

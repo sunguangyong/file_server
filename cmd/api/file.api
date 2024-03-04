@@ -7,19 +7,29 @@ info(
 )
 
 type (
-	//    FileRequest {
-	//        AppName string `path:"appName"`
-	//        TypeName string `path:"typeName"`
-	//        File multipart.File `form:"file"`
-	//    }
-
-	FileRequest {
+	FileUploadRequest {
 		AppName  string `path:"AppName"`
 		TypeName string `path:"TypeName"`
-		//File     byte   `form:"file"`
 	}
 
-	FileResponse struct{}
+	FileUploadResponse {
+		Data []FileUpload `json:"data"`
+	}
+
+	FileUpload {
+		FileId       int64  `json:"file_id"`
+		DownloadPath string `json:"download_path"`
+		DiskPath     string `json:"disk_path"`
+	}
+
+	FileDownloadRequest {
+		AppName  string `path:"AppName"`
+		TypeName string `path:"TypeName"`
+		FileName string `path:"FileName"`
+	}
+
+	FileDownloadResponse {
+	}
 )
 
 //文件服务
@@ -28,5 +38,12 @@ service apis {
 		summary: "上传文件"
 	)
 	@handler FileUpload
-	post /upload/:AppName/:TypeName (FileRequest) returns (FileResponse)
+	post /upload/:AppName/:TypeName (FileUploadRequest) returns (FileUploadResponse)
+	
+	@doc(
+		summary: "下载文件"
+	)
+	@handler FileDownload
+	get /download/:AppName/:TypeName/:FileName (FileDownloadRequest) returns (FileUploadResponse)
+	
 }

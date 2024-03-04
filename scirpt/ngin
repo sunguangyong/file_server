@@ -1,6 +1,0 @@
-location /file/ {
-    proxy_pass http://10.0.3.122:8989/;
-}
-
-http url  http://192.168.19.201:8989/upload/smartphone/xlsx
-https usrl https://yqai-screen.yplsec.cn/file/upload/smartphone/csv
