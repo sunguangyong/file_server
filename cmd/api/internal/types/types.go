@@ -19,7 +19,7 @@ type FileUpload struct {
 type FileDownloadRequest struct {
 	AppName  string `path:"AppName"`
 	TypeName string `path:"TypeName"`
-	FileName string `path:"FileName"`
+	FileId   int64  `path:"FileId"`
 }
 
 type FileDownloadResponse struct {

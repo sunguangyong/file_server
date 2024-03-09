@@ -25,7 +25,7 @@ type (
 	FileDownloadRequest {
 		AppName  string `path:"AppName"`
 		TypeName string `path:"TypeName"`
-		FileName string `path:"FileName"`
+		FileId   int64  `path:"FileId"`
 	}
 
 	FileDownloadResponse {
@@ -44,6 +44,6 @@ service apis {
 		summary: "下载文件"
 	)
 	@handler FileDownload
-	get /download/:AppName/:TypeName/:FileName (FileDownloadRequest) returns (FileUploadResponse)
+	get /download/:AppName/:TypeName/:FileId (FileDownloadRequest) returns (FileUploadResponse)
 	
 }

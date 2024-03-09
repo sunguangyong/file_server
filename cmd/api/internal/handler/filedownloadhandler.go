@@ -4,9 +4,8 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
-	"strings"
 
-	common "github.com/file_server/common/constant"
+	"github.com/file_server/cmd/api/internal/logic"
 	"github.com/file_server/common/fileutil"
 	"github.com/file_server/common/xerr"
 
@@ -23,15 +22,25 @@ func FileDownloadHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
+		l := logic.NewFileDownloadLogic(r.Context(), svcCtx)
+
+		file, err := l.FileDownload(&req)
+
+		if err != nil {
+			return
+		}
+
+		diskPath := file.DiskPath
+
 		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Content-Type", "octet-stream")
-		w.Header().Set("Content-Disposition", fmt.Sprintf("attachment; filename=\"%s\"", req.FileName))
+		w.Header().Set("Content-Disposition", fmt.Sprintf("attachment; filename=\"%s\"", file.OrigFileName))
 
-		diskPath := strings.Join([]string{common.STATIC_DIR, req.AppName, req.TypeName, req.FileName}, "/")
 		if !fileutil.FileExist(diskPath) {
 			xerr.NewErr(201, errors.New("ERROR: file Not Found"))
 			return
 		}
+
 		http.ServeFile(w, r, diskPath)
 	}
 }

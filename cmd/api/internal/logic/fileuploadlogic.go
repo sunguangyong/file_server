@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"mime/multipart"
-	"net/url"
 	"os"
 	"time"
 
@@ -67,8 +66,8 @@ func (l *FileUploadLogic) save(req *types.FileUploadRequest, fh *multipart.FileH
 	appName := req.AppName
 	typeName := req.TypeName
 
-	downloadPath := fileutil.DoloadFilePath(appName, typeName, url.QueryEscape(fileName)) // 将字符地址转为安全地址  防止特殊符号在服务器端无法获得正确的参数值
-	absolutePath := fileutil.AbsoluteFilePath(appName, typeName, url.QueryEscape(fileName))
+	downloadPath := fileutil.DoloadFilePath(appName, typeName, "") // 将字符地址转为安全地址  防止特殊符号在服务器端无法获得正确的参数值
+	absolutePath := fileutil.AbsoluteFilePath(appName, typeName, "")
 
 	diskDir := fileutil.CurrentDirPath(appName, typeName)
 

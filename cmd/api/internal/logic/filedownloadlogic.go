@@ -3,6 +3,10 @@ package logic
 import (
 	"context"
 
+	"github.com/file_server/common/xerr"
+	"github.com/file_server/model"
+	"github.com/pkg/errors"
+
 	"github.com/file_server/cmd/api/internal/svc"
 	"github.com/file_server/cmd/api/internal/types"
 
@@ -23,7 +27,16 @@ func NewFileDownloadLogic(ctx context.Context, svcCtx *svc.ServiceContext) *File
 	}
 }
 
-func (l *FileDownloadLogic) FileDownload(req *types.FileDownloadRequest) (resp *types.FileUploadResponse, err error) {
+func (l *FileDownloadLogic) FileDownload(req *types.FileDownloadRequest) (file *model.Files, err error) {
+	file, err = model.FileConn.FindOne(l.ctx, req.FileId)
+
+	if err != nil {
+		return
+	}
+
+	if file == nil {
+		return nil, xerr.NewErr(201, errors.New("没有此文件"))
+	}
 
 	return
 }
