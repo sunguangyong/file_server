@@ -60,6 +60,6 @@ service apis {
 		summary: "查看文件信息"
 	)
 	@handler GetFileInfo
-	get /get/file/info/:FileId (FileDownloadRequest) returns (FileOnfoResponse)
+	get /get/file/info/:FileId (FileInfoRequest) returns (FileOnfoResponse)
 	
 }

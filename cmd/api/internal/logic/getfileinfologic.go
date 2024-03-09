@@ -28,7 +28,7 @@ func NewGetFileInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetFi
 	}
 }
 
-func (l *GetFileInfoLogic) GetFileInfo(req *types.FileDownloadRequest) (resp *types.FileOnfoResponse, err error) {
+func (l *GetFileInfoLogic) GetFileInfo(req *types.FileInfoRequest) (resp *types.FileOnfoResponse, err error) {
 	// todo: add your logic here and delete this line
 
 	resp = &types.FileOnfoResponse{}
@@ -43,7 +43,7 @@ func (l *GetFileInfoLogic) GetFileInfo(req *types.FileDownloadRequest) (resp *ty
 	}
 
 	resp.DiskPath = file.DiskPath
-	resp.DownloadPath = fmt.Sprintf("%s/%d", file.DownloadPath, file.Id)
+	resp.DownloadPath = fmt.Sprintf("%s%d", file.DownloadPath, file.Id)
 
 	return
 }
