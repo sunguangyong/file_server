@@ -2,8 +2,6 @@ package logic
 
 import (
 	"context"
-	"fmt"
-
 	"github.com/file_server/common/xerr"
 	"github.com/file_server/model"
 	"github.com/pkg/errors"
@@ -43,7 +41,7 @@ func (l *GetFileInfoLogic) GetFileInfo(req *types.FileInfoRequest) (resp *types.
 	}
 
 	resp.DiskPath = file.DiskPath
-	resp.DownloadPath = fmt.Sprintf("%s%d", file.DownloadPath, file.Id)
+	resp.DownloadPath = file.DownloadPath
 
 	return
 }
