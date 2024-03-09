@@ -22,6 +22,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/download/:AppName/:TypeName/:FileId",
 				Handler: FileDownloadHandler(serverCtx),
 			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/get/file/info/:FileId",
+				Handler: GetFileInfoHandler(serverCtx),
+			},
 		},
 	)
 }

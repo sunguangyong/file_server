@@ -24,3 +24,13 @@ type FileDownloadRequest struct {
 
 type FileDownloadResponse struct {
 }
+
+type FileInfoRequest struct {
+	FileId int64 `path:"FileId"`
+}
+
+type FileOnfoResponse struct {
+	DownloadPath string `json:"downloadPath"`
+	DiskPath     string `json:"diskPath"`
+	FileId       int64  `json:"fileId"`
+}

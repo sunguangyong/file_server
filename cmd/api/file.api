@@ -30,6 +30,16 @@ type (
 
 	FileDownloadResponse {
 	}
+
+	FileInfoRequest {
+		FileId int64 `path:"FileId"`
+	}
+
+	FileOnfoResponse {
+		DownloadPath string `json:"downloadPath"`
+		DiskPath     string `json:"diskPath"`
+		FileId       int64  `json:"fileId"`
+	}
 )
 
 //文件服务
@@ -45,5 +55,11 @@ service apis {
 	)
 	@handler FileDownload
 	get /download/:AppName/:TypeName/:FileId (FileDownloadRequest) returns (FileUploadResponse)
+	
+	@doc(
+		summary: "查看文件信息"
+	)
+	@handler GetFileInfo
+	get /get/file/info/:FileId (FileDownloadRequest) returns (FileOnfoResponse)
 	
 }
