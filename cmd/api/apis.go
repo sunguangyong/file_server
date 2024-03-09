@@ -12,7 +12,7 @@ import (
 	"github.com/zeromicro/go-zero/rest"
 )
 
-var configFile = flag.String("f", "/Users/sunguangyong/workspace/src/self/file_server/cmd/api/etc/apis.yaml", "the config file")
+var configFile = flag.String("f", "etc/apis.yaml", "the config file")
 
 func main() {
 	flag.Parse()
