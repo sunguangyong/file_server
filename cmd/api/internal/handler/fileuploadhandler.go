@@ -20,6 +20,9 @@ func FileUploadHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 		mp := r.MultipartForm
+
+		r.ParseForm()
+		r.ParseMultipartForm(1024 << 20) //max memory: 1024M
 		//fh := r.MultipartFileHeader
 
 		l := logic.NewFileUploadLogic(r.Context(), svcCtx)
